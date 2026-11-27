@@ -1,112 +1,64 @@
-# Psych Master - Educational Platform
+# Psych Master
 
-A comprehensive psychiatric diagnostic and reasoning platform designed for medical students, residents, and healthcare professionals.
+An interactive, evidence-based psychiatry curriculum for medical students, residents and clinicians. Every module goes from diagnostic criteria to management, and every claim is tied to a guideline, trial or regulatory action (content reviewed November 2026).
 
-## Overview
+**Live:** https://psych-master-educational.vercel.app
 
-Psych Master is an interactive educational web application that teaches psychiatric diagnostic pattern recognition, structured interviews, and clinical reasoning across the most frequently tested and clinically important psychiatric disorders.
+## What's inside
 
-## Features
+| | |
+|---|---|
+| **10 modules** | Clinical reasoning & MSE · Depression · Bipolar · Psychosis · Anxiety & OCD · PTSD · ADHD · Substance use & withdrawal · Personality · Emergencies & safety |
+| **14 interactive tools** | Criteria engines that show which DSM-5-TR rule passes or fails (MDE, mania/hypomania, psychotic disorders, PTSD/ASD, ADHD); validated scales (PHQ-9, GAD-7, AUDIT-C, CIWA-Ar, COWS, Bush–Francis, 4AT); alcohol-withdrawal timeline; serotonin syndrome vs NMS vs anticholinergic differentiator |
+| **21 branching cases** | Commit at each step; every option explains why it is right or wrong |
+| **81-question bank** | Learning or exam mode, topic filters, retry-missed, per-topic accuracy |
+| **167 flashcards** | Leitner spaced repetition with due-card scheduling |
+| **Sorting drills** | MSE domains, symptom domains, personality clusters |
+| **Mastery tracking** | Per-module mastery weighted toward retrieval (questions > cases > cards > reading); export/import progress |
+| **89-term glossary** | With the contrasts most often confused |
+| **107 references** | Guidelines (APA, CANMAT/ISBD, NICE, VA/DoD, ASAM, AAP), meta-analyses, pivotal trials, FDA/CDC actions through 2026 |
 
-### 8 Core Learning Modules
+Progress is stored only in the browser (no accounts, no analytics). Light, dark and system themes; works on phones.
 
-1. **Major Depressive Disorder (MDD)** - Severity assessment and red flag identification
-2. **Bipolar Disorder** - Mania vs hypomania distinction builder
-3. **Schizophrenia & Psychosis** - Positive/negative symptom pattern engine
-4. **Anxiety Disorders** - GAD vs Panic differentiation
-5. **PTSD** - Interactive cluster mapper
-6. **ADHD** - Domain analyzer (inattention vs hyperactivity)
-7. **Substance Use Disorders** - Alcohol and opioid withdrawal patterns
-8. **Personality Disorders** - Cluster A/B/C overview
+## Development
 
-### Additional Resources
-
-- **Interactive Assessments** - Clinical vignettes with detailed explanations
-- **Comprehensive Glossary** - Essential psychiatric terminology
-- **Dark Mode** - Comfortable learning experience
-- **Mobile-First Design** - Responsive across all devices
-
-## Technology Stack
-
-- **React 18** with TypeScript
-- **Vite** for fast development and building
-- **Tailwind CSS** for styling
-- **Zustand** for state management
-- **React Router** for navigation
-- **Lucide React** for icons
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v18 or higher)
-- npm or yarn
-
-### Installation
+Requires Node ≥ 20.19.
 
 ```bash
-# Install dependencies
 npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
+npm run dev        # local dev server
+npm run build      # typecheck + production build (dist/)
+npm test           # unit + content-integrity tests (Vitest)
+npm run e2e        # browser tests on desktop + mobile (Playwright)
 ```
 
-## Educational Approach
+## How the code is organized
 
-This platform emphasizes:
-- Diagnostic clarity through structured reasoning
-- Symptom cluster recognition
-- Pattern-based learning
-- Differential diagnosis building
-- Red flag identification
-- Case-based scenarios
+```
+src/
+  content/            all curriculum content as typed data
+    modules/*.ts      one file per module: sections, cases, questions, flashcards, pitfalls
+    references.ts     single source of truth for citations
+    glossary.ts
+  logic/              pure, unit-tested clinical engines (criteria, scales, toxidrome, timeline)
+  components/         renderers: blocks, question card, case stepper, flashcards, tools
+  pages/              routes
+  store/              persisted progress (Zustand) and theme
+e2e/                  Playwright smoke and interaction tests
+```
 
-## Important Disclaimers
+Content is data, so updating the curriculum rarely touches UI code. The test suite enforces content integrity: valid answer keys, a rationale for every option, unique ids, every citation resolvable and listed, no orphan references, balanced formatting, person-first language, and no boilerplate disclaimers scattered through the text.
 
-⚠️ **EDUCATIONAL USE ONLY** - This application is designed exclusively for educational purposes and is NOT intended for:
-- Clinical diagnosis
-- Treatment planning
-- Patient care decisions
-- Substituting professional medical judgment
+### Adding or updating content
 
-### Key Points
+1. Edit the module file in `src/content/modules/`.
+2. Add any new source to `src/content/references.ts` and cite it in the section `refs` and module `references`.
+3. Run `npm test` — the integrity tests will flag anything malformed.
 
-- All clinical scenarios are **synthetic** and created for educational purposes
-- No real patient data is used
-- Content is DSM-5-TR informed conceptually (not verbatim criteria)
-- No specific medication dosing or therapeutic directives provided
-- Not accredited for CME credits
+## Deployment
 
-## Privacy
+Deployed on Vercel from `main`. `vercel.json` rewrites client-side routes (e.g. `/bipolar`) to `index.html` so deep links and refreshes work, and sets long-lived caching for hashed assets.
 
-- **No data tracking** - User progress is not stored
-- **No analytics** - No user behavior tracking
-- **Local storage only** - Theme preference stored locally
-- **No user accounts** - No registration required
+## Use
 
-## Crisis Resources
-
-If you or someone you know is experiencing a mental health crisis:
-- Call **988** (Suicide & Crisis Lifeline) in the US
-- Go to your nearest emergency department
-- Call emergency services (911 in US)
-- Contact a mental health professional immediately
-
-## License
-
-This project is for educational purposes only.
-
-## Version
-
-Current Version: 1.0.0
-
-## Acknowledgments
-
-Content informed by DSM-5-TR diagnostic criteria and standard psychiatric teaching principles.
+For learning and clinical-reasoning practice. Check doses and decisions against current guidelines and local protocols. In a crisis in the US, call or text 988.
