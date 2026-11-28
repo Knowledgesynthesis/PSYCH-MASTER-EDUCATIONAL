@@ -1,0 +1,48 @@
+name: Verify Simtriyo teaching content
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npx playwright install --with-deps chromium
+      - run: npm run e2e -- --grep Simtriyo
+
+  production:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Verify both entry points at the public Vercel URL
+        env:
+          PSYCH_BASE_URL: https://psych-master-educational.vercel.app
+        run: |
+          for attempt in $(seq 1 10); do
+            if npm run e2e -- --grep Simtriyo; then exit 0; fi
+            sleep 12
+          done
+          exit 1

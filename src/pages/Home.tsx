@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react'
 import { Link } from 'react-router'
 import { ArrowRight, BookOpenCheck, Brain, Calculator, ClipboardCheck, Layers, Repeat, Sparkles, Stethoscope } from 'lucide-react'
 import { ALL_FLASHCARDS, ALL_QUESTIONS, MODULES, MODULE_BY_SLUG } from '../content'
+import { CENTANAFADINE_SUMMARY } from '../content/centanafadine'
 import { useProgress } from '../store/progress'
 import { moduleMastery, masteryLabel } from '../lib/mastery'
 import { isDue, isLearned } from '../lib/srs'
@@ -13,8 +14,8 @@ import { TOOLS } from '../components/tools/registry'
 
 const UPDATES: { date: string; text: string; slug: string }[] = [
   { date: 'Nov 2026', text: 'Psilocybin (COMP360) NDA submitted for treatment-resistant depression — not approved; Schedule I.', slug: 'mdd' },
+  { date: 'Oct 2026', text: CENTANAFADINE_SUMMARY, slug: 'adhd' },
   { date: 'Aug 2026', text: 'MDMA-assisted therapy for PTSD resubmitted to FDA after the 2024 rejection — decision pending.', slug: 'ptsd' },
-  { date: 'Jul 2026', text: 'Centanafadine (Simtriyo) approved for ADHD (≥6 years and adults) — a new reuptake-inhibitor class.', slug: 'adhd' },
   { date: 'Apr 2026', text: 'CDC alert: medetomidine in the fentanyl supply causes severe, treatment-resistant withdrawal.', slug: 'sud' },
   { date: 'Feb 2026', text: 'Milsaperidone (Bysanti) approved for bipolar I manic/mixed episodes and schizophrenia.', slug: 'bipolar' },
   { date: 'Jan 2026', text: 'APA roadmap for a future “living” DSM; DSM-5-TR remains current.', slug: 'foundations' },

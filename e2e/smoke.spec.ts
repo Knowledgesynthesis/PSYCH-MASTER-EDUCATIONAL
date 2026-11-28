@@ -159,3 +159,26 @@ test('glossary search filters terms', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Tangentiality' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Akathisia' })).toHaveCount(0)
 })
+
+test('Simtriyo scope and scheduling are consistent on Home and ADHD', async ({ page }) => {
+  const errors = watchErrors(page)
+  const minimum = /age 6 or older who weigh at least 20 kg/
+  const schedule = /Schedule III since October 30, 2026/
+  await page.goto('/')
+  const update = page.getByText(/Centanafadine \(Simtriyo\): FDA-approved/)
+  await expect(update).toBeVisible()
+  await expect(update).toHaveText(minimum)
+  await expect(update).toHaveText(schedule)
+  await noHorizontalOverflow(page)
+
+  await page.goto('/adhd')
+  const row = page.getByRole('row', { name: /Centanafadine \(Simtriyo\)/ })
+  await expect(row).toBeVisible()
+  await expect(row).toHaveText(minimum)
+  await expect(row).toHaveText(schedule)
+  await expect(page.getByText(/launch pending DEA scheduling/i)).toHaveCount(0)
+  await expect(page.getByRole('link', { name: /FDA\. Simtriyo prescribing information/ })).toHaveAttribute('href', /218145s000lbl\.pdf$/)
+  await expect(page.getByRole('link', { name: /DEA\. Placement of Centanafadine/ })).toHaveAttribute('href', /2026-22208\.htm$/)
+  await noHorizontalOverflow(page)
+  expect(errors).toEqual([])
+})

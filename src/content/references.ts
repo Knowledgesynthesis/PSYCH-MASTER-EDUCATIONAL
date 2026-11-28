@@ -1,4 +1,5 @@
 import type { Reference } from './types'
+import { CENTANAFADINE } from './centanafadine'
 
 const r = (id: string, year: number, type: Reference['type'], citation: string, url?: string): Reference => ({ id, year, type, citation, url })
 
@@ -85,7 +86,8 @@ export const REFERENCES: Reference[] = [
   r('moran-2024', 2024, 'cohort', 'Moran LV et al. Risk of incident psychosis and mania with prescription amphetamines. Am J Psychiatry 2024;181:901–909.'),
   r('fda-stimulants-2023', 2023, 'regulatory', 'FDA requires updated boxed warning for prescription stimulants on abuse, misuse, addiction and diversion (May 2023).'),
   r('fda-er-stimulants-2025', 2025, 'regulatory', 'FDA Drug Safety Communication: expanded labeling on weight-loss risk in patients younger than 6 years taking extended-release stimulants (30 June 2025).'),
-  r('fda-centanafadine-2026', 2026, 'regulatory', 'FDA approval of centanafadine (Simtriyo), a norepinephrine–dopamine–serotonin reuptake inhibitor, for ADHD in adults and children ≥6 years (July 2026); launch pending DEA scheduling.'),
+  r('fda-centanafadine-2026', 2026, 'regulatory', `FDA. Simtriyo prescribing information (NDA 218145). Approved July 24, 2026 for ${CENTANAFADINE.indication}. The original label predates DEA scheduling.`, CENTANAFADINE.fdaLabelUrl),
+  r('dea-centanafadine-2026', 2026, 'regulatory', `DEA. Placement of Centanafadine in Schedule III. 91 FR 68470. ${CENTANAFADINE.schedule}.`, CENTANAFADINE.deaRuleUrl),
 
   // Substance use
   r('asam-aw-2020', 2020, 'guideline', 'American Society of Addiction Medicine. The ASAM Clinical Practice Guideline on Alcohol Withdrawal Management. J Addict Med 2020;14(3S Suppl 1):1–72.'),

@@ -1,4 +1,5 @@
 import type { Module } from '../types'
+import { CENTANAFADINE, CENTANAFADINE_SUMMARY } from '../centanafadine'
 
 export const adhd: Module = {
   id: 'adhd',
@@ -102,7 +103,7 @@ export const adhd: Module = {
     {
       id: 'treatment',
       title: 'Treatment by age',
-      refs: ['aap-adhd-2019', 'nice-ng87', 'cortese-2018', 'fda-er-stimulants-2025'],
+      refs: ['aap-adhd-2019', 'nice-ng87', 'cortese-2018', 'fda-er-stimulants-2025', 'fda-centanafadine-2026', 'dea-centanafadine-2026'],
       blocks: [
         {
           type: 'table',
@@ -123,7 +124,7 @@ export const adhd: Module = {
             ['Atomoxetine', 'Non-stimulant NRI; full effect 4–8+ weeks; boxed warning for suicidal ideation in youth; useful with anxiety, tics or misuse risk'],
             ['Viloxazine ER', 'Non-stimulant (children 2021, adults 2022); boxed warning for suicidality; inhibits CYP1A2 (raises caffeine, theophylline, clozapine)'],
             ['Guanfacine ER, clonidine ER', 'α2-agonists for children; sedation, bradycardia, hypotension; **rebound hypertension if stopped abruptly**; help tics, sleep onset and aggression; can combine with stimulants'],
-            ['Centanafadine (Simtriyo)', 'First norepinephrine–dopamine–serotonin reuptake inhibitor, approved July 2026 for ages ≥6 and adults; launch pending DEA scheduling — limited real-world data'],
+            [CENTANAFADINE.name, `${CENTANAFADINE.drugClass}. FDA-approved for ${CENTANAFADINE.indication}. ${CENTANAFADINE.schedule}. See FDA labeling for the boxed warnings on pediatric suicidal ideation and behaviors and on abuse, misuse and addiction.`],
           ],
         },
         {
@@ -364,9 +365,9 @@ export const adhd: Module = {
     { id: 'adhd-f11', front: 'Viloxazine', back: 'Non-stimulant (2021/2022); boxed warning suicidality; CYP1A2 inhibitor.' },
     { id: 'adhd-f12', front: 'α2-agonists in ADHD', back: 'Guanfacine ER, clonidine ER: help tics, sleep onset, aggression; taper to avoid rebound hypertension.' },
     { id: 'adhd-f13', front: 'FDA 2025 change for preschoolers', back: 'Extended-release stimulants under age 6: higher exposure, more adverse effects incl. weight loss — consider IR.' },
-    { id: 'adhd-f14', front: 'New ADHD drug class (2026)', back: 'Centanafadine (Simtriyo): norepinephrine–dopamine–serotonin reuptake inhibitor, ages ≥6 and adults; launch pending DEA scheduling.' },
+    { id: 'adhd-f14', front: 'Simtriyo: pediatric eligibility and U.S. scheduling', back: CENTANAFADINE_SUMMARY },
     { id: 'adhd-f15', front: 'Population-level benefits of ADHD medication', back: 'Fewer injuries, crashes, crimes, substance-related events; lower all-cause mortality (registry data).' },
     { id: 'adhd-f16', front: 'Relative age effect', back: 'The youngest children in a school year are more likely to be diagnosed — compare with same-age peers.' },
   ],
-  references: ['dsm5tr', 'aap-adhd-2019', 'nice-ng87', 'cortese-2018', 'sibley-2022', 'song-2021', 'layton-2018', 'li-2024', 'zhang-2024', 'moran-2024', 'fda-stimulants-2023', 'fda-er-stimulants-2025', 'fda-centanafadine-2026'],
+  references: ['dsm5tr', 'aap-adhd-2019', 'nice-ng87', 'cortese-2018', 'sibley-2022', 'song-2021', 'layton-2018', 'li-2024', 'zhang-2024', 'moran-2024', 'fda-stimulants-2023', 'fda-er-stimulants-2025', 'fda-centanafadine-2026', 'dea-centanafadine-2026'],
 }

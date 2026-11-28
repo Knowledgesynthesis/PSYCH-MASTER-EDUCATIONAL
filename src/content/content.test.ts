@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { ALL_FLASHCARDS, ALL_QUESTIONS, MODULES } from './index'
 import { REFERENCES, REFERENCE_MAP } from './references'
+import { CENTANAFADINE_SUMMARY } from './centanafadine'
+import { adhd } from './modules/adhd'
 import { GLOSSARY } from './glossary'
 import type { Block, Module } from './types'
 import { TOOLS } from '../components/tools/registry'
@@ -200,5 +202,25 @@ describe('glossary', () => {
     const terms = GLOSSARY.map((g) => g.term.toLowerCase())
     expect(new Set(terms).size).toBe(terms.length)
     for (const g of GLOSSARY) expect(g.definition.length).toBeGreaterThan(15)
+  })
+})
+
+describe('Simtriyo teaching content', () => {
+  it('includes both pediatric criteria and Schedule III in the lesson and flashcard', () => {
+    const lesson = strings(adhd).find((s) => s.includes('CNS stimulant and norepinephrine'))
+    const flashcard = adhd.flashcards.find((c) => c.id === 'adhd-f14')?.back
+    for (const s of [lesson, flashcard, CENTANAFADINE_SUMMARY]) {
+      expect(s).toContain('age 6 or older who weigh at least 20 kg')
+      expect(s).toContain('Schedule III since October 30, 2026')
+    }
+    expect(strings(adhd).join(' ')).not.toMatch(/pending DEA scheduling/i)
+  })
+
+  it('cites the FDA indication and DEA rule in the treatment section', () => {
+    expect(adhd.sections.find((s) => s.id === 'treatment')?.refs).toEqual(
+      expect.arrayContaining(['fda-centanafadine-2026', 'dea-centanafadine-2026']),
+    )
+    expect(REFERENCE_MAP['fda-centanafadine-2026']?.url).toContain('218145s000lbl.pdf')
+    expect(REFERENCE_MAP['dea-centanafadine-2026']?.url).toContain('2026-22208.htm')
   })
 })
